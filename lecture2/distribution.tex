@@ -235,21 +235,33 @@ Random variable $X$ has a point mass distribution pmf $f$ if
 \]
 
 \subsubsection{Bernoulli Distribution}
-Random variable $X$ has a Bernoulli distribution pmf $f$ if 
+Random variable $X \in \{0,1\}$ has a Bernoulli distribution pmf $f$ if 
 \[f(x) = \left\{\begin{array}{cc}
-p & x= a \\
-1-p & \text{otherwise}
+p & x= 1 \\
+1-p & x=0
 \end{array}
 \right.
 \]
-where $p \in [0,1]$. It can be written as $f(x)=p^x(1-p)^{1-x}$ also. In binary classification problem, Bernoulli distribution is always used to model the category $y = f(x)$. If $y>0.5$, it's in class 1, else in class 2.
+where $p \in [0,1]$. It can also be written as $f(x)=p^x(1-p)^{1-x}$. In binary classification problem, Bernoulli distribution is always used to model the category $y = f(x)$. If $y>0.5$, it's in class 1, else in class 2.
+
+\begin{example}
+In \textbf{logistic regression},
+$$\Pr(y=0)=[1+exp(-a^Tx)]^{-1}$$
+$$\Pr(y=1)=[1+exp(-a^Tx)]^{-1}exp(-a^Tx)$$
+So the likelihood function is:
+$$\mathcal{L}= \prod_{i=1}^{n}{[1+exp(-a^Tx_i)]^{-y_i}[1+exp(a^Tx_i)]^{(y_i-1)}}$$
+where $y_i \in \{0,1\}$.
+Take the logarithm of the likelihood:
+$$log(\mathcal{L})=\sum_{i=1}^n{-y_ilog(1+exp(-a^Tx_i))+(y_i-1)log(1+exp(a^Tx_i))}$$
+
+\end{example}
+
 
 \subsubsection{Poisson Distribution}
 A discrete random variable $X$ is said to have a Poisson distribution with parameter $\lambda > 0$, 
-if, for $k = 0, 1, 2, ...$, the probability mass function of $X$ is given by:
-\[f(x; \lambda) = \Pr(X=x)= e^{-\lambda} \frac{\lambda^x }{x!},\quad x\ge 0\].
-
-It is easy to validate $\sum{f(x)}=1$ by the Taylor expansion of $e^\lambda$.
+if for $k = 0, 1, 2, ...$, the probability mass function of $X$ is given by:
+\[f(x; \lambda) = \Pr(X=x)= e^{-\lambda} \frac{\lambda^x }{x!},\quad x\ge 0\]
+$$\sum_{x=0}^\infty{f(x)}=\sum_{x=0}^\infty{e^{-\lambda} \frac{\lambda^x }{x!}}=e^{-x}\sum_{x=0}^\infty{\frac{\lambda^x}{x!}}=e^{-x}e^x=1$$
 
 {\bf Remark}: If $X_1 \sim \mbox{Poisson}(\lambda_1)$, $X_2 \sim \mbox{Poisson}(\lambda_2)$, 
 then $X_1 + X_2 \sim \mbox{Poisson}(\lambda_1 + \lambda_2)$.
@@ -257,7 +269,7 @@ then $X_1 + X_2 \sim \mbox{Poisson}(\lambda_1 + \lambda_2)$.
 \subsubsection{Binomial Distribution}
 A discrete random variable $X$ is said to have a binomial distribution with parameter $n$ and $p$, we write $X \sim \mbox{Binomial}s(n,p)$. The probability mass function is given by:
 \[f(x;n,p) = \Pr(X = x) = {n\choose x}p^x(1-p)^{n-x}\]
-for $k=0,1,2,...,n$, where ${n \choose k} = \frac{n!}{k!(n-k)!}$ is the binomial coefficient. It can be interpreted that the probability of exact $k$ successes after $n$ trials.
+for $x=0,1,2,...,n$, where ${n \choose x} = \frac{n!}{x!(n-x)!}$ is the binomial coefficient. It can be interpreted that the probability of exact $k$ successes after $n$ trials.
 
 {\bf Remark}: If $X_1 \sim \mbox{Binomial}(n_1,p)$, $X_2 \sim \mbox{Binomial}(n_2,p)$, 
 then $X_1 + X_2 \sim \mbox{Binomial}(n_1+n_2,p)$.
@@ -272,14 +284,16 @@ $$\Gamma(x) = \int_0^\infty t^{x-1} e^{-t}\,{\rm d}t$$.
 
 As a generalization of factorial function, $\Gamma(x+1)=x\Gamma(x)$, $\Gamma(1)=0!=1$ and $ \Gamma(\frac{1}{2})=\sqrt{\pi}$.
 
-Also, we can define ${n\choose k}$ when n is a real number and k is a integer:
-\[{n\choose k} = \left\{\begin{array}{cc}
-\frac{n(n-1)\dots(n-k+1)}{k!} & k\ge 0 \\
+Also, we can define ${r\choose k}$ when $r$ is a real number and $k$ is a integer:
+\[{r\choose k} = \left\{\begin{array}{cc}
+\frac{r(r-1)\dots(r-k+1)}{k!} & k\ge 0 \\
 0 & k<0
 \end{array}
 \right.
 \]
-Then we can get a new binomial theorem:$(1+z)^n = \sum_{k}{n \choose k}z^k$, $|z|<1$. It can be proved by Taylor expansion also.
+where ${r\choose 0}=1, {r\choose 1}=r$.
+Then we can get a new binomial theorem:
+$(1+z)^r =\frac{f(0)}{0!}z^0+\frac{f^{'}(0)}{1!}z^1+\dots=\sum_k{\frac{f^{(k)}(0)}{k!}z^k}=\sum_{k}{r \choose k}z^k$, $|z|<1$.
 \subsubsection{Negative Binomial Distribution}
 Suppose there is a sequence of independent Bernoulli trials, each trial having two potential outcomes called ``success" and ``failure". In each trial the probability of success is $p$ and of failure is $1-p$. We are observing this sequence until a predefined number $r$ of failures has occurred. Then the random number of successes we have seen, $X$, will have the negative binomial (or Pascal) distribution:
 \[X \sim \mbox{NB}(r, p).\]
@@ -320,11 +334,10 @@ Hence, $\Pr(X=1)=\Pr(\omega\le p)=\Pr([0,p])=p$, $\Pr(X=1)=\Pr(\omega> p)=\Pr((p
 \item
 If $\lim \limits_{n\rightarrow\infty}a_n=a$, show that $\lim \limits_{n\rightarrow\infty}\left(1+\frac{a_n}{n}\right)^n=e^{a}$.
 \item
-Prove the Stirling Formula.
-\begin{eqnarray*}
-\lim_{p\rightarrow\infty}\frac{\ln\Gamma(p)}{\frac{1}{2}\ln(2\pi)+(p-\frac{1}{2})\ln{p}-p}&=&1\\
-\lim_{p\rightarrow\infty}\frac{\Gamma(p)}{(2\pi)^{\frac{1}{2}}p^{p-\frac{1}{2}}e^{-p}}&=&1
-\end{eqnarray*}
+If $nt>-1$, show that $(1-t)^n\ge 1-nt$.
+\item 
+If $-x<n<m$, show that $(1+\frac{x}{n})^n\le (1+\frac{x}{m})^m$.
+
 \end{enumerate}
 \subsection{Continuous Distribution Examples}
 \subsubsection{Continuous Uniform Distribution}
@@ -367,6 +380,20 @@ More generally, for $a>0, p>0$,
 \int_{0}^{\infty}x^{p-1}e^{-ax^q}\mathrm dx &=& \frac{1}{q}a^{-\frac{p}{q}}\Gamma(\frac{p}{q}) \\
 \int_{0}^{\infty}x^{-(p+1)}e^{-ax^{-q}}\mathrm dx &=& \frac{1}{q}a^{-\frac{p}{q}}\Gamma(\frac{p}{q}) \\
 \end{eqnarray*}
+\subsubsection{Gamma Distribution}
+A random variable $X$ that is gamma-distributed is denoted by
+$X\sim \mbox{Gamma}(r,\frac{\alpha}{2})$,
+$$
+f(x) = \frac{\alpha^r}{2^r\Gamma(r)} x^{r-1} e^{- \frac{\alpha x}{2} }
+$$
+when $r=1$, it's exponential distribution. If $X_i\sim  \mbox{Gamma}(r_i,\alpha)$, then $\sum_{i=1}^{n}X_i\sim \mbox{Gamma}({\sum_{i=1}^n{r_i},\alpha})$.
+
+\textbf{Inverse Gamma Distribution}
+
+A random variable $X$ that is inverse gamma-distributed is denoted by $X\sim \mbox{Inv-Gamma}(r,\frac{\beta}{2})$,
+$$
+f(x) = \frac{\beta^\tau}{2^\tau\Gamma(\tau)} x^{-(\tau+1)} e^{- \frac{\beta}{2x} },\tau=-r
+$$
 \subsubsection{Generalized Inverse Gaussian Distribution}
 A continuous random variable $X$ is said to have generalized inverse Gaussian distribution(GIG) with parameters $\alpha$, $\beta$, $r$, if the probability density function of $X$ is given by:
 \[f(x) = \frac{(\alpha / \beta)^{r/2}}{2 K_r(\sqrt{\alpha\beta})} x^{r-1} e^{-(\alpha x + \beta/x)/2}, x > 0\]
@@ -381,38 +408,27 @@ $K_{r+1}(u)=2\frac{r}{u}K_{r}(u)+K_{r-1}(u)$
 \item
 $K_{1/2}(u)=K_{-1/2}(u)=\sqrt{\frac{\pi}{2u}}e^{-u}$
 \item
-$u\rightarrow0 \,\, \begin{cases}
-  K_r(u) \sim \frac{1}{2}\Gamma(r)\left(\frac{u}{2}\right)^{-r} \\
-  K_0(u) \sim \ln{u}
+$u\rightarrow0, K_r(u) \sim \begin{cases}
+   \frac{1}{2}\Gamma(r)\left(\frac{u}{2}\right)^{-r} & r>0 \\
+   \ln{u} & r=0
   \end{cases}$
 \item
 $u\rightarrow\infty, K_r(u)\sim\sqrt{\frac{\pi}{2u}}e^{-u}$
 \end{enumerate}
 
-\textbf{Gamma Distribution}
 
-Specially, when $\beta=0, \alpha>0, r>0$, $X\sim \mbox{Gamma}(r,\frac{\alpha}{2})$,
-$$
-f(x) = \frac{\alpha^r}{2^r\Gamma(r)} x^{r-1} e^{- \frac{\alpha x}{2} }
-$$
-when $r=1$, it's exponential distribution. If $X_i\sim  \mbox{Gamma}(r_i,\alpha)$, then $\sum_{i=1}^{n}X_i\sim \mbox{Gamma}({\sum_{i=1}^n{r_i},\alpha})$.
 
-\textbf{Inverse Gamma Distribution}
-
-Specially, when $\alpha=0, r<0, \beta>0$, $X\sim \mbox{Inv-Gamma}(r,\frac{\beta}{2})$,
-$$
-f(x) = \frac{\beta^\tau}{2^\tau\Gamma(\tau)} x^{-(\tau+1)} e^{- \frac{\beta}{2x} },\tau=-r
-$$
-
-\textbf{Inverse Gaussian}
+\textbf{Inverse Gaussian Distribution}
 
 Specially, when $r=-\frac{1}{2}$,
 \begin{eqnarray*}
-f(x) &=& \left(\frac{\beta}{2\pi}\right)^{\frac{1}{2}}\exp({\sqrt{2\beta}})x^{-\frac{3}{2}}\exp(-\frac{\alpha x+x^{-1}\beta}{2})\\
+f(x) &=& \left(\frac{\beta}{2\pi}\right)^{\frac{1}{2}}\exp({\sqrt{\alpha\beta}})x^{-\frac{3}{2}}\exp(-\frac{\alpha x+\beta x^{-1}}{2})\\
 &=& \left[\frac{\lambda}{2 \pi x^3}\right]^{1/2} \exp{\frac{-\lambda (x-\mu)^2}{2 \mu^2 x}} 
 \end{eqnarray*}
-where $\alpha = \lambda/\mu^2, \beta = \lambda$.
-
+where $\alpha = \lambda/\mu^2, \beta = \lambda$. \\
+For the case $r=\frac{1}{2}$,
+$$f(x) = \left(\frac{\alpha}{2\pi}\right)^{\frac{1}{2}}\exp({\sqrt{\alpha\beta}})x^{-\frac{1}{2}}\exp(-\frac{\alpha x+\beta x^{-1}}{2})$$
+Note that $\int_0^\infty{x^{-\frac{1}{2}}\exp(-\frac{\alpha x+\beta x^{-1}}{2})dx}={(\frac{2\pi}{\alpha})}^{\frac{1}{2}}\exp{(-\sqrt{\alpha\beta})}$, because $\int_0^\infty{x^{-\frac{1}{2}}\exp(-\frac{a^2x+b^2x^{-1}}{2})dx}=\frac{\sqrt{2\pi}}{a}\exp{(-|ab|)}$. 
 \subsubsection{Chi-Squared Distribution}
 A continuous random variable $X$ is said to have chi-squared distribution, if the probability density function of $X$ is given by:
 \[f(x) = \frac{1}{\Gamma(\frac{p}{2})2^{\frac{p}{2}}} x^{\frac{p}{2} - 1} e^{-\frac{x}{2}}, x>0\]
@@ -421,7 +437,7 @@ Note that $\|\boldsymbol{N}_{i=1,...,k}{(0,1)}\|^2 \sim \chi^2_k$ (The squared n
 \subsubsection{Beta Distribution}
 A continuous random variable $X$ is said to have beta distribution, if the probability density function of $X$ is given by:
 \[f(x) = \frac{\Gamma(\alpha + \beta)}{\Gamma(\alpha)\Gamma(\beta)} x^{\alpha - 1} (1-x)^{\beta - 1}\]
-The beta function is defined as:
+where $0<x<1$. The beta function is defined as:
 $$
 \mbox{Beta}(p,q)=\frac{\Gamma(p)\Gamma(q)}{\Gamma(p+q)}
 $$
@@ -430,10 +446,15 @@ When $\alpha=1,\beta=1$, it is uniform distribution on $[0,1]$.
 \subsubsection{Student's t-distribution}
 A continuous random variable $X$ is said to have Student's t-distribution($X\sim t_\nu$), if the probability density function of $X$ is given by:
 $$
-f(t) = \frac{\Gamma(\frac{\nu+1}{2})}{\Gamma(\frac{\nu}{2})} \frac{1}{\left(1+\frac{(x-\mu)^2}{\nu\sigma^2}\right)^{\frac{\nu+1}{2}}} \frac{1}{\sqrt{\nu\pi}/\sigma}
+f(x) = \frac{\Gamma(\frac{\nu+1}{2})}{\Gamma(\frac{\nu}{2})} \frac{1}{\left(1+\frac{(x-\mu)^2}{\nu\sigma^2}\right)^{\frac{\nu+1}{2}}} \frac{1}{\sqrt{\nu\pi}/\sigma}
 $$
-When $\nu=1$, it is Cauchy distribution and when $\nu\rightarrow\infty$, $t\rightarrow\MN$.
-
+where $\nu$ denotes the degree of freedom. When $\nu=1$, it is Cauchy distribution:
+$$f(x)=\frac{1}{\pi\sigma}[1+(\frac{x-\mu}{\sigma})^2]^{-1}$$ 
+and when $\nu\rightarrow\infty$, it is Gaussian distribution:
+$$\lim_{\nu\rightarrow\infty}(1+\frac{\nu+1}{2\nu}\frac{2}{\nu+1}(\frac{x-\mu}{\sigma})^2)^{-\frac{\nu+1}{2}}=\exp(-\frac{(x-\mu)^2}{2\sigma^2}) $$
+We can prove the Stirling Formula 
+$\lim_{p\rightarrow\infty}\frac{\Gamma(p)}{(2\pi)^{\frac{1}{2}}p^{p-\frac{1}{2}}e^{-p}}=1$.
+$$\lim_{\nu\rightarrow\infty}\nu^{-\frac{1}{2zx}}\frac{\Gamma(\frac{\nu+1}{2})}{\Gamma(\frac{\nu}{2})}$$
 It can be shown that the t-distribution is like an infinite sum of Gaussians, where each Gaussian has a different variance:
 $$
 \int_{0}^{\infty}\MN(x\mid\mu,(\lambda\tau)^{-1})\mbox{Gamma}(\tau\mid\frac{\nu}{2},\frac{\nu}{2})=t_\nu(x\mid\mu,\lambda^{-1})

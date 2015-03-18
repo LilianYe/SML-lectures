@@ -224,7 +224,7 @@ Let $X \sim \MN(\mu, r)$, $r \sim \mbox{Exponential}(\frac{1}{2\sigma^2})$, then
  = & \frac{1}{2\sigma^2 \sqrt{2\pi}}  \int_0^\infty
  r^{\frac{1}{2} - 1} e^{-\frac{1}{2} \left( \frac{(x-\mu)^2}{r} + \frac{r}{\sigma^2}\right)} \mathrm{d}r  \\
  = & \frac{1}{2\sigma^2 \sqrt{2\pi}} \frac{2K_{1/2}\left(\sqrt{(\frac{1}{\sigma^2}(x-\mu)^2)}\right)}{(\frac{1}{\sigma^2(x-\mu)^2})^{\frac{1}{4}}} \\
- = &\frac{1}{2\sigma} e^{\frac{|x-\mu|}{\sigma}}
+ = &\frac{1}{2\sigma} e^{-\frac{|x-\mu|}{\sigma}}
 \end{split}\]
 The integral term is a integral of generalized inverse Gaussian distribution, $\mbox{GIG}(\frac{1}{2},\frac{1}{\sigma^2},(x-\mu)^2)$.
 
@@ -235,21 +235,33 @@ Let $K \sim \mbox{Poisson}(\lambda)$, $\lambda \sim \mbox{Gamma}(r, \frac{1-p}{p
 &  \int_0^\infty \frac{\lambda^k}{k!} e^{-\lambda}
 \frac{\lambda^{r-1} e^{-\frac{1-p}{p} \lambda}}{\Gamma(r) (\frac{p}{1-p})^r} \mathrm{d}\lambda \\
 = & \frac{1}{k! \Gamma(r) (\frac{p}{1-p})^r}  \int_0^\infty  \lambda^{k+r-1}  e^{-\frac{\lambda}{p}} \mathrm{d}\lambda \\
-=&\frac{\Gamma(r+k)p^k(1-p)^r}{\Gamma(k)\Gamma(r)}\\
+=&\frac{\Gamma(r+k)p^k(1-p)^r}{\Gamma(r)k!}\\
 = & {k+r-1 \choose k} p^k (1-p)^r
 \end{split}\]
 
 \textbf{Homework 1:}   $\sum\limits_{k=0}^\infty \mbox{Gamma}(x | k+\rho+1, \beta) \mbox{Poisson} (k | \lambda),  \rho\mbox{ is a constant},\rho>-1$.
 
 \section{Statistical Inference (I)}
+\textbf{Statistical inference} is the process of deducing properties of an underlying distribution by analysis of data. \textbf{Maximum-likelihood estimation(MLE)} and \textbf{Maximum a posteriori probability(MAP) estimate} are two improtant methods.
 
+Assume that we want to estimate an unobserved population parameter $\theta$ on the basis of observations $x$. Let $f$ be the sampling distribution of $x$, so that $f(x|\theta)$ is the probability of x when the underlying population parameter is $\theta$.And the MLE of $\theta$ is $$\hat{\theta}_{ML}(x)=\underset{\theta} {\mathrm{argmax}}f(x|\theta)$$
+Now assume that a prior distribution $g$ over $\theta$ exists. This allows us to treat $\theta$ as a random variable as in Bayesian statistics. Then the posterior distribution of $\theta$ is $f(\theta|x)=\frac{f(x|\theta)g(\theta)}{f(x)}$. And the MAP of $\theta$ is $$\hat{\theta}_{MAP}(x)=\underset{\theta} {\mathrm{argmax}}f(x|\theta)g(\theta)$$
+\begin{example} In \textbf{Logistic regression}, $y\sim Bernoulli(\frac{1}{1+\exp(-a^Tx)})$ 
+\end{example}
+\begin{example}
+In \textbf{Least square Estimation}, $y\sim\MN(a^Tx,\sigma^2)$, $p(y)=\frac{1}{\sqrt{2\pi}\sigma}\exp(-\frac{(y-a^Tx)^2}{2\sigma^2})$. $$\mathrm{max}\frac{1}{\sqrt{2\pi}\sigma}\exp(-\frac{(y-a^Tx)^2}{2\sigma^2})\Leftrightarrow \mathrm{max}-\frac{(y-a^Tx)^2}{2\sigma^2}-log(\sigma)\Leftrightarrow \mathrm{min}\frac{(y-a^Tx)^2}{2\sigma^2}+log(\sigma) $$
+\end{example}
+\begin{example}In \textbf{Ridge regression}, $p(y|a)\sim \MN$, $p(a)\sim \MN(0,\tau^2)$, then 
+$$\mathrm{min}-log(p(y|a))-log(p(a))\Leftrightarrow \mathrm{min}\frac{1}{2}[(y-a^Tx)^2+\lambda||a||_2^2] $$
+
+\end{example}
 \subsection{Jeffreys Prior}
 In order to show Jeffrey prior, we first introduce \textbf{Fisher information}. In mathematical statistics, the Fisher information is a way of measuring the amount of information that an observable random variable $X$ carries about an unknown parameter $\theta$ upon which the probability of $X$ depends.
 
 The probability function for $X$, which is also the likelihood function for $\theta$, is a function $f(X; \theta)$; it is the probability mass (or probability density) of the random variable $X$ conditional on the value of $\theta$. Then we define Fisher information:
 \begin{definition}
 Fisher Information:
-$$I(\theta)=\BE((\frac{\partial\log f(x; \theta)}{\partial\theta})^2)$$
+$$I(\theta)=\BE((\frac{\partial\log f(x; \theta)}{\partial\theta})^2)=\int (\frac{\partial\log f(x; \theta)}{\partial\theta})^2f(x;\theta)dx$$
 \end{definition}
 
 \begin{lemma}
@@ -261,7 +273,8 @@ $$I(\theta) = -\BE(\frac{\partial^2\log f}{\partial\theta ^ 2})$$
 first
 \begin{align}
 \nonumber
-\frac{\partial^2\log f}{\partial\theta ^ 2} &= \frac{\partial}{\partial\theta}(\frac{\frac{\partial f}{\partial\theta}}{f}) \\
+\frac{\partial^2\log f}{\partial\theta ^ 2} &= \frac{\partial}{\partial\theta}(\frac{\partial log(f)}{\partial\theta})\\
+&= \frac{\partial}{\partial\theta}(\frac{\frac{\partial f}{\partial\theta}}{f}) \\
 \nonumber
 &= \frac{\frac{\partial^2f}{\partial\theta^2}}{f} - \frac{(\frac{\partial f}{\partial\theta})^2}{f^2}\\
 \nonumber
@@ -304,7 +317,7 @@ $$f(X|\mu) = \frac{1}{\sqrt{2\pi}\sigma}\exp(-\frac{1}{2\sigma^2}(x - \mu)^2)$$
 so
 $$\log f = -\frac{(x-\mu)^2}{2\sigma^2}+\ln(\frac{1}{\sqrt{2\pi}\sigma})$$So we can get:
 \[\begin{split} 
-I(\mu) &= \BE\left[ \frac{\partial\log f}{\partial \mu} \right] \\
+I(\mu) &= \BE\left[ \left(\frac{\partial\log f}{\partial \mu}\right)^2 \right] \\
 &= \BE\left[ \left( \frac{x - \mu}{\sigma^2} \right)^2 \right] \\
 &= \frac{\BE(x - \mu)^2}{\sigma^4} \\
 &= \frac{1}{\sigma^2}

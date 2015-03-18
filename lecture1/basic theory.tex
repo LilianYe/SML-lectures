@@ -246,10 +246,12 @@ The Bayesian approach views the model parameters as a random variable and  estim
 
 \begin{example}
 Let's continue example 1.1, let $y_i \sim \MN(x_i^T a, \sigma^2)$ again. Here $a$ and $\sigma$ are random variables, not constants. Let $a \sim \MN(0, \lambda^2)$, $\sigma^2 \sim \Gamma(\alpha, \beta)$.
-Our interest is the posterior probability $P(a\mid x_i, y_i) \propto P(x_i, y_i\mid a)P(a)$. We can use maximum posterior estimation or Bayesian estimation to solve $a$.
+Our interest is the posterior probability $P(a|x_i, y_i) \propto P(x_i, y_i|a)P(a)$. We can use maximum posterior estimation or Bayesian estimation to solve $a$.
 \end{example}
 
 
+\subsection{Generative vs. Discriminant}
+\textbf{A generative model} (e.g., naive Bayes) explicitly models the joint probability distribution $P(x,y)$ and then uses the Bayes rule to compute $P(y|x)$. On the other hand, \textbf{a discriminative model} (e.g., logistic regression) directly models $P(y|x)$.
 \subsection{Parametrics vs. Nonparametrics}
 In a parametrical model, the number of parameters is fixed once and for all, independent to the number of the training data.
 In a nonparametrical model, the number of parameters can change according to the number of training data.
@@ -259,6 +261,7 @@ In \textbf{Nearest Neighbor} method, the number of parameters is the number of t
 
 In \textbf{Logistic Regression}, the number of parameters is the dimension of the training samples. So this model is parametrical model.
 \end{example}
+
 \section{Probability Theory Basics}
 \subsection{Sample Space and Events}
 \begin{definition}
