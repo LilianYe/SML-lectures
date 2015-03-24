@@ -464,26 +464,6 @@ Consider the symmetric case, we have the following.
 
 \subsection{Random variables and their properties}
 
-\begin{definition}
-	Let random vector $\X=(X_1,\dots,X_m)^T$. Then mean of $\X$ is 
-		$$\mu=(\mu_1,\dots,\mu_m)^T=(\BE[X_1],\dots,\BE[X_m])^T.$$
-	The covariance matrix $\Si$ is
-		$$\Si = Cov(\X) = 
-			\begin{pmatrix}
-				Var(X_1)		& Cov(X_1,X_2)	& \cdots 	& Cov(X_1,X_m)\\
-				Cov(X_1,X_2)	& Var(X_2)	 	& \cdots 	& Cov(X_2,X_m)\\	
-				\vdots 		& \vdots 		& \ddots 	& \vdots\\
-				Cov(X_m,X_1) 	& Cov(X_m,X_2)& \cdots 	& Var(X_m,X_m)
-			\end{pmatrix}.
-		$$
-\end{definition}
-
-\begin{lemma}
-	If $\a$ is a vector and $\X$ is a random vector with mean $\muu$ and covariance matrix $\Si$, then
-		$$\BE[\a^T\X]=\a^T\muu \quad \text{and} \quad Var(\a^T\X)=\a^T\Si\a$$.
-	If $\A$ is a matrix then
-		$$\BE[\A\X] = \A\muu  \quad \text{and} \quad Cov(\A\X) = \A\Si\A^T$$.
-\end{lemma}
 
 \subsubsection{Examples}
 \begin{definition} [The Multinomial Distribution]
