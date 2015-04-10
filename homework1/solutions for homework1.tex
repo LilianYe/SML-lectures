@@ -20,41 +20,21 @@ If $\lim \limits_{n\rightarrow\infty}a_n=a$, show that $\lim \limits_{n\rightarr
 $$\lim \limits_{n\rightarrow\infty}\left(1+\frac{a_n}{n}\right)^n  = \lim \limits_{n\rightarrow\infty}\left(\left(1+\frac{1}{n/a_n}\right)^{n/a_n}\right)^{a_n} = e^a$$
 \end{proof}
 
-\item
-Prove the Stirling Formula.
-\begin{eqnarray*}
-\lim_{p\rightarrow\infty}\frac{\ln\Gamma(p)}{\frac{1}{2}\ln(2\pi)+(p-\frac{1}{2})\ln{p}-p}&=&1\\
-\lim_{p\rightarrow\infty}\frac{\Gamma(p)}{(2\pi)^{\frac{1}{2}}p^{p-\frac{1}{2}}e^{-p}}&=&1
-\end{eqnarray*}
-\begin{proof}
-The Gamma function is :
-\begin{eqnarray*}
-\Gamma(p+1)  = &\int_0^{\infty}x^pe^{-x}dx \\
-= &\int_0^{\infty}e^{p\ln x-x}dx \\
-= &\int_0^{\infty}e^{p(\ln x-\frac{x}{p})}dx \\
-\end{eqnarray*}
-Let $f(x) = \ln x-\frac{x}{p}$. It's twice differentiable function on $[0,\infty)$.
-$f'(x) = \frac{1}{x}-\frac{1}{p}$, so $x=p$ is the unique maximum point and $f''(x) = -\frac{1}{x^2}<0$. Then, according to Laplace's method \footnote{http://en.wikipedia.org/wiki/Laplace\%27s\_method}, we have:
-$$\lim_{p \to +\infty}  \frac{\int_0^\infty e^{pf(x)} \, dx}{\left( e^{pf(p)}\sqrt{\frac{2 \pi}{p (-f''(p))}} \right)} =1 $$
-namely,
-\begin{eqnarray*}
-& \lim\limits_{ p \to +\infty}  \frac{\Gamma(p)}{\left( e^{p(\ln p-\frac{p}{p})}\sqrt{\frac{2 \pi}{p (\frac{1}{p^2})}} \right)}  &= 1 \\
-\Longrightarrow & \lim\limits_{p \to +\infty}  \frac{\Gamma(p)}{(2\pi)^{\frac{1}{2}}p^{p-\frac{1}{2}}e^{-p}} &= 1 \\
-\end{eqnarray*}
-It is easy to prove the other formula by L'Hospital's rule.
-\end{proof}
+\item If $nt>-1$, then $(1-t)^n\ge 1-nt$.
 
-\item
-$\sum\limits_{k=0}^\infty \mbox{Gamma}(x | k+\rho+1, \beta) \mbox{Poisson} (k | \lambda),  \rho\mbox{ is a constant},\rho>-1$
-\begin{eqnarray*}
-&& \sum\limits_{k=0}^\infty \mbox{Gamma}(x | k+\rho+1, \beta) \mbox{Poisson} (k | \lambda) \\
-& = & \sum\limits_{k=0}^\infty \frac{\beta^{k+\rho+1}}{\Gamma(k+\rho+1)}x^{k+\rho}e^{-\beta x}e^{-\lambda}\frac{\lambda^{k}}{k!} \\
-& = & \frac{\beta e^{-\lambda-\beta x}}{\lambda^{\rho}}\sum\limits_{k=0}^\infty \frac{1}{\Gamma(k+\rho+1)k!}(\lambda\beta x)^{k+\rho} \\
-& = & \beta e^{-\lambda-\beta x}\sqrt{\left(\beta x/\lambda\right)^\rho}\sum\limits_{k=0}^\infty \frac{1}{\Gamma(k+\rho+1)k!}\left(\sqrt{\lambda\beta x}\right)^{2k+\rho} \\
-& = & \beta e^{-\lambda-\beta x}\sqrt{\left(\beta x/\lambda\right)^\rho} I_\rho\left(2\sqrt{\lambda\beta x}\right) \\
-\end{eqnarray*}
-where $I_\rho$ is the modified Bessel functions of the first kind, which is defined by
-$$I_\rho(x) =\sum_{k=0}^\infty \frac{1}{k! \Gamma(k+\rho+1)}\left(\frac{x}{2}\right)^{2k+\rho}$$
+
+\item If $-x<n<m$, then $(1+\frac{x}{n})^n\le (1+\frac{x}{m})^m$.
+\begin{proof}
+$$(1+\frac{x}{n})^n\le (1+\frac{x}{m})^m \Longleftrightarrow n\log(1+\frac{x}{n})\le m\log(1+\frac{x}{m})$$
+Consider function $f(t)=t\log(1+\frac{x}{t})$, $t>0$. 
+\begin{equation}
+\begin{aligned}
+\frac{df}{dt}&=\log(1+\frac{x}{t})-\frac{x}{x+t} \\
+\frac{d^2f}{dt^2}&=-\frac{x^2}{(t+x)^2t}\le 0
+\end{aligned}
+\end{equation}
+Notice that $\lim \limits_{t\rightarrow\infty}\frac{df}{dt}=0$, so $\frac{df}{dt}\ge 0$.
+\end{proof}
 
 \item Compute the following integrals:
 \begin{enumerate}
@@ -67,8 +47,8 @@ where $\Phi(x) = \int_{-\infty}^{x} \frac{1}{\sqrt{2\pi}} e^{-\frac{t^2}{2}} dt$
 \begin{enumerate}
 \item 
 \begin{eqnarray*}
-u_0 &=& \int_{-\infty}^{\infty} \left(\int_{-\infty}^{x} \frac{1}{\sqrt{2\pi}} e^{-\frac{t^2}{2}}\right) \frac{1}{\sqrt{2\pi}\sigma} e^{-\frac{(x-\mu)^2}{2\sigma^2}} dx \\
-&=& \int_{-\infty}^{\infty} \left(\int_{-\infty}^{\sigma y+\mu} \frac{1}{\sqrt{2\pi}} e^{-\frac{t^2}{2}}\right) \frac{1}{\sqrt{2\pi}} e^{-\frac{y^2}{2}} dy   \\
+u_0 &=& \int_{-\infty}^{\infty} \left(\int_{-\infty}^{x} \frac{1}{\sqrt{2\pi}} e^{-\frac{t^2}{2}} dt \right) \frac{1}{\sqrt{2\pi}\sigma} e^{-\frac{(x-\mu)^2}{2\sigma^2}} dx \\
+&=& \int_{-\infty}^{\infty} \left(\int_{-\infty}^{\sigma y+\mu} \frac{1}{\sqrt{2\pi}} e^{-\frac{t^2}{2}} dt\right) \frac{1}{\sqrt{2\pi}} e^{-\frac{y^2}{2}} dy   \\
 && \mbox{(use }y=(x-\mu)/\sigma-\mbox{ to replace x, then }Y\sim \MN(0,1))\\
 &=&\int_{-\infty}^{\infty} \Phi(\sigma y+\mu) \MN(y|0, 1) dy \\
 &=&\int_{-\infty}^{\infty} P(K\le \sigma Y+\mu | Y=y) \varphi(y) dy  \\
@@ -103,20 +83,39 @@ u_2 &=& \mu u_1+ \sigma^2\left(-\frac{\mu\sigma^2}{\sqrt{(1+\sigma^2)^{3}}}\varp
 &=& (m_1^2-\mu^2+\sigma^2)u_0 +2(\mu-m_1)u_1-\frac{\mu\sigma^4}{\sqrt{(1+\sigma^2)^{3}}}\varphi(\frac{\mu}{\sqrt{1+\sigma^2}}) \\
 \end{eqnarray*}
 \end{enumerate}
-\item $f(x; \theta) = \theta^x(1-\theta)^{1-x}$, $0 < \theta < 1$.
-\begin{enumerate}
-\item Compute Jeffreys prior about $\theta$.
-\item If $\theta = \sin^2 \alpha$, compute Jeffreys prior about $\alpha$.
+
+\item $X\sim Binom(n,\theta)$, $f(x; \theta) = {n\choose x}\theta^x(1-\theta)^{1-x}$, $0 < \theta < 1$. Compute Jeffreys prior about $\theta$. 
+\begin{align*}p(\theta)  \propto \sqrt{I(\theta)} &= \sqrt{\operatorname{E}\!\left[ \left( \frac{d}{d\theta} \log f(x|\theta) \right)^2\right]} \\
+&= \sqrt{\operatorname{E}\!\left[ \left( \frac{d}{d\theta} x\log\theta +\frac{d}{d\theta}(n-x)\log(1-\theta)+\frac{d}{d\theta}\log{n \choose x} \right)^2\right]} \\
+&= \sqrt{\operatorname{E}\!\left[ \left( \frac{x}{\theta} - \frac{n-x}{1-\theta}\right)^2 \right]} \\ 
+& = \sqrt{\operatorname{E}\!\left[ \left(\frac{x-n\theta}{\theta(1-\theta)} \right)^2 \right]} \\
+&= \frac{1}{\theta(1-\theta)}\sqrt{Var(x)} \\
+&= \sqrt{\frac{n}{\theta(1-\theta)}}\,.
+\end{align*} 
+
+
+\item
+$\lim\limits_{v\rightarrow\infty} \mbox{Gamma}(r|\frac{v}{2}, \frac{v}{2})=\delta_1(r)$
+\begin{proof}
+
+Applying Stirling's approximation, we have
+$$\Gamma(\frac{v}{2})=\sqrt{2\pi}(\frac{v}{2})^{\frac{v}{2}-\frac{1}{2}}e^{-\frac{v}{2}}$$
+so 
+\begin{equation}
+\begin{aligned}
+\lim\limits_{v\rightarrow\infty} \mbox{Gamma}(r|\frac{v}{2}, \frac{v}{2}) &= \lim\limits_{v\rightarrow\infty}\frac{(\frac{v}{2})^{\frac{v}{2}}r^{\frac{v}{2}-1}e^{-\frac{rv}{2}}}{\Gamma(\frac{v}{2})} \\
+&= \lim\limits_{v\rightarrow\infty}\frac{(\frac{v}{2})^{\frac{v}{2}}r^{\frac{v}{2}-1}e^{-\frac{rv}{2}}}{\sqrt{2\pi}(\frac{v}{2})^{\frac{v}{2}-\frac{1}{2}}e^{-\frac{v}{2}}} \\
+&= \lim\limits_{v\rightarrow\infty}\frac{\sqrt{v}r^{\frac{v}{2}-1}e^{-\frac{(r-1)v}{2}}}{2\sqrt{\pi}} 
+\end{aligned}
+\end{equation}
+when $r=1$, $\lim\limits_{v\rightarrow\infty} \mbox{Gamma}(r|\frac{v}{2}, \frac{v}{2})=\lim\limits_{v\rightarrow\infty} \frac{1}{2}\sqrt{\frac{v}{\pi}}=\infty$.
+
+when $r\ne 1$, $\frac{r}{e^{r-1}}<1$, 
+$\lim\limits_{v\rightarrow\infty} \mbox{Gamma}(r|\frac{v}{2}, \frac{v}{2})=\lim\limits_{v\rightarrow\infty}\frac{\sqrt{v}\left(\frac{r}{e^{r-1}}\right)^{\frac{v}{2}}}{2\sqrt{\pi}r}=0$. 
+\end{proof}
+
+
 \end{enumerate}
-\begin{enumerate}
-\item 
-\begin{align*}p(\theta) & \propto \sqrt{I(\theta)} = \sqrt{\operatorname{E}\!\left[ \left( \frac{d}{d\theta} \log f(x|\theta) \right)^2\right]} = \sqrt{\operatorname{E}\!\left[ \left( \frac{x}{\theta} - \frac{1-x}{1-\theta}\right)^2 \right]} \\ & = \sqrt{\theta \left( \frac{1}{\theta} - \frac{0}{1-\theta}\right)^2 + (1-\theta)\left( \frac{0}{\theta} - \frac{1}{1-\theta}\right)^2} = \frac{1}{\sqrt{\theta(1-\theta)}}\,.\end{align*} 
-\item 
-\begin{align*}
-p(\alpha) \propto&  p(\theta)|\frac{d\theta}{d\alpha}| \\
-\propto & \frac{1}{|\sin\alpha\cos\alpha|}|2\sin \alpha\cos \alpha| \\
-\propto & 1 \\
-\end{align*}
-\end{enumerate}
-\end{enumerate}
+
+
 \end{document}
